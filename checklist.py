@@ -7,8 +7,7 @@ def create(item):
 
 #Read
 def read(index):
-    item = checklist[index]
-    return item
+    return checklist[index]
 
 #Update
 def update(index, item):
@@ -22,34 +21,86 @@ def destroy(index):
 def list_all_items():
     index = 0
     for list_item in checklist:
-        print("{} {}".format(index, list_item))
+        print("\033[1;32;40m" + "{} {}".format(index, list_item) + "\x1b[0m")
         index += 1
 
 #Checkmark
 def mark_completed(index):
     update(index, "√" + checklist[index])
 
+def unmark_item(index):
+    if "√" == checklist[index][0]:
+        checklist[index] = checklist[index][1:]
+    
+    else:
+        print("item is not checked")
+
+
 #Selects from user input
 def select(function_code):
 
-    if function_code == "C":
-        input_item = user_input("Input item:")
-        create(input_item)
+    #Normalize input code
+    function_code = function_code.upper()
 
-    elif function_code == "R":
-        item_index = user_input("Index Number?")
-        read(item_index)
+    try:
+        #Create item
+        if function_code == "C":
+            input_item = user_input("Input item: ")
+            create(input_item)
 
-    elif function_code == "P":
-        list_all_items()
+        #Read item
+        elif function_code == "R":
+            item_index = user_input("Index Number?: ")
+            read((int)(item_index))
 
-    else:
-        print("Unknown Option")
+        #List items
+        elif function_code == "P":
+            list_all_items()
+        
+        #Quit
+        elif function_code == "Q":
+            return False
+
+        #Update item
+        elif function_code == "U":
+            item_index = user_input("Index of item to update?: ")
+            item = user_input("Input update: ")
+            update((int)(item_index), item)
+
+        #Delete item
+        elif function_code == "D" :
+            item_index = user_input("Index of item to destroy: ")
+            destroy((int)(item_index))
+
+        #Unmark item
+        elif function_code == "UN":
+            item_index = user_input("Index of checkmark to remove")
+            unmark_item((int)(item_index))
+
+        else:
+            print("Unknown Option")
+
+        return True
+
+    except IndexError:
+        print("Invalid Index please try again")
+        selection_prompt()
+
+
 
 #Waits for user input
 def user_input(prompt):
     user_input = input(prompt)
     return user_input
+
+#Loop that prompts user
+def selection_prompt():
+    running = True
+    while running:
+        selection = user_input("Press C to add to list, U to update item in list, D to destroy item in list,"
+         + "R to Read from list, P to display list, and Q to quit: ")
+        print("\033[H\033[J")
+        running = select(selection)
 
 def test():
     create("purple sox")
@@ -62,11 +113,13 @@ def test():
     list_all_items()
     mark_completed(0)
     list_all_items()
-    select("C")
+    #select("C")
     list_all_items()
-    select("R")
+    #select("R")
     list_all_items()
 
 test()
+
+selection_prompt()
 
 
