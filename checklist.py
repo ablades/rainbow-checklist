@@ -4,17 +4,21 @@ checklist = list()
 # Create
 def create(item):
     checklist.append(item)
+    print("\033[1;35;40m" + "Created " + item + "\x1b[0m")
 
 #Read
 def read(index):
+    print("\033[1;31;40m" + checklist[index] + " is at index " + str(index) + "\x1b[0m")
     return checklist[index]
 
 #Update
 def update(index, item):
+    print("\033[1;33;40m" + "Updated " + checklist[index] + " to " + item + "\x1b[0m")
     checklist[index] = item
 
 #Destroy
 def destroy(index):
+    print("\033[1;36;40m" + checklist[index] + " has been removed" + "\x1b[0m")
     checklist.pop(index)
 
 #List
@@ -33,7 +37,7 @@ def unmark_item(index):
         checklist[index] = checklist[index][1:]
     
     else:
-        print("item is not checked")
+        print("\033[1;34;40m" + "item is not checked" + "\x1b[0m")
 
 
 #Selects from user input
