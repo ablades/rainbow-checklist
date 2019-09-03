@@ -1,7 +1,7 @@
 
 checklist = list()
 
-# Create
+#Create
 def create(item):
     checklist.append(item)
     print("\033[1;35;40m" + "Created " + item + "\x1b[0m")
@@ -86,9 +86,9 @@ def select(function_code):
 
         return True
 
-    except IndexError:
-        print("Invalid Index please try again")
-        selection_prompt()
+    except:
+        print("Invalid please try again")
+        return True
 
 
 
